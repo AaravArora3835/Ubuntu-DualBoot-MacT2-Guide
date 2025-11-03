@@ -78,3 +78,6 @@ All specifications and configurations are verified and documented for reproducib
 **File Created:** October 30, 2025
 **Last Updated:** October 31, 2025
 **Purpose:** Baseline system reference for Ubuntu dual-boot configuration.
+
+- ✅ Hardware verified functional under both macOS and Ubuntu (keyboard, trackpad, Wi-Fi, audio).
+
