@@ -2,8 +2,6 @@
 
 **Author:** Aarav Arora
 **System:** MacBook Pro 13" (2019, Apple T2 Security Chip)
-**Verification Dates:** October 30–31, 2025
-
 ---
 
 ## 1. Purpose
