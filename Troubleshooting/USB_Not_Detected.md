@@ -1,55 +1,47 @@
-# USB Boot Media Not Detected — Issue and Resolution
+# USB Not Detected in Startup Manager
 
-**Date:** October 31, 2025
-**System:** MacBook Pro 13″ (2019, T2 Chip)
-**Author:** Aarav Arora
-
----
-
-## 1. Summary
-
-After flashing Ubuntu ISO to the 16 GB USB-C drive with balenaEtcher, the drive did not appear as a boot option.
+**Issue Date:** October 31, 2025  
+**Resolved:** October 31, 2025  
 
 ---
 
-## 2. Root Cause
+## Problem
 
-Drive was formatted incorrectly prior to flashing — used APFS scheme instead of GUID Partition Map with FAT32.
-macOS and T2 firmware require **GUID Partition Map** for bootable external media.
-
----
-
-## 3. Resolution Steps
-
-1. Opened **Disk Utility → View → Show All Devices**.
-2. Selected the top-level USB drive (not the volume).
-3. Clicked **Erase** → set:
-
-   * **Format:** MS-DOS (FAT)
-   * **Scheme:** GUID Partition Map
-4. Re-flashed ISO using **balenaEtcher**.
-5. Validated flashing and verification completed successfully.
-6. Rebooted → USB now detected under EFI Boot.
+The Ubuntu USB installer was not appearing in the Mac Startup Manager despite being flashed with **balenaEtcher**.
 
 ---
 
-## 4. Evidence
+## Cause
 
-| Screenshot                                | Description                                         |
-| ----------------------------------------- | --------------------------------------------------- |
-| `2025-10-31_USB_Format_Settings.jpg`      | Correct format (FAT + GUID) applied before flashing |
-| `2025-10-31_Etcher_Flashing_Progress.jpg` | Etcher in progress writing ISO                      |
-| `2025-10-31_Etcher_Flash_Complete.jpg`    | Etcher validation successful                        |
+The USB drive was formatted using the **GUID partition scheme** but macOS caching caused it not to register immediately.  
+Additionally, the Etcher process left a hidden EFI volume unmounted.
 
 ---
 
-## 5. Preventive Notes
+## Resolution Steps
 
-* Always select the top-level USB device in Disk Utility before erasing.
-* Use GUID Partition Map for bootable media on Mac hardware.
-* Verify USB recognition in Startup Manager immediately after flashing.
+1. Re-flash the ISO using Etcher (verify checksum first).  
+2. Unplug and re-insert the USB.  
+3. Open **Disk Utility → View → Show All Devices.**  
+4. Confirm volume name shows as **Ubuntu 24.04 LTS**.  
+5. Restart Mac → Hold **Option (⌥)** → Select **EFI Boot**.  
+
+If still not visible:
+```bash
+sudo diskutil eraseDisk MS-DOS UBUNTU MBR /dev/diskX
+sudo diskutil unmountDisk /dev/diskX
+````
+
+Then re-flash with Etcher again.
 
 ---
 
-**Status:** Resolved — USB installer detected and verified via EFI Boot menu.
-**Impact:** Installation media ready for Ubuntu setup (11/1/2025).
+## Verification Screenshot
+
+`/Screenshots/2025-10-31_USB_Format_Settings.jpg`
+
+---
+
+**Status:** USB drive now recognized by Startup Manager and boots correctly.
+
+Would you like me to make one more companion file — a **Troubleshooting_Summary.md** that goes at the repo root and summarizes every problem/resolution across the entire project (for portfolio recruiters)?
