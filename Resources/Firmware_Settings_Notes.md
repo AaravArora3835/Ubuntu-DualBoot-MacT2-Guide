@@ -2,7 +2,6 @@
 
 **Author:** Aarav Arora
 **System:** MacBook Pro 13" (2019, Apple T2 Security Chip)
-**Last Updated:** October 31, 2025
 
 ---
 
