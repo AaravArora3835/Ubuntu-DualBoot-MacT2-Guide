@@ -1,184 +1,91 @@
-# Ubuntu Dual Boot on Mac (T2 Secure Boot Friendly)
+# Ubuntu Dual-Boot on MacBook Pro (T2 Chip) — Complete Technical Case Study
 
-**Author:** Aarav Arora
-**Start Date:** October 30 2025
-**Hardware Tested:** MacBook Pro 13-inch (2019, Four Thunderbolt 3 Ports)
-**Processor:** 2.4 GHz Quad-Core Intel Core i5 **Memory:** 16 GB LPDDR3 **Graphics:** Intel Iris Plus 655 (1536 MB)
-**Security Chip:** Apple T2 (Secure Boot Enabled by Default)
-
----
-
-## 1. Project Overview
-
-This repository documents the complete installation and configuration of **Ubuntu 24.04 LTS** alongside **macOS Ventura** on a 2019 MacBook Pro equipped with Apple’s T2 Security Chip.
-It transforms a consumer Mac into a **dual-operating-system cybersecurity lab**, capable of running penetration-testing, forensics, and systems-administration workloads natively.
-
-This implementation forms part of **Aarav Arora’s Cybersecurity Roadmap (2025–2026)** — a multi-year academic and professional initiative aligning practical infrastructure setup with certification-level cybersecurity education.
+**Author:** Aarav Arora  
+**Date:** November 2, 2025  
+**Device:** MacBook Pro 13" (2019, Apple T2 Security Chip)  
+**Status:** ✅ Fully Functional Dual-Boot Environment  
 
 ---
 
-## 2. Objectives
+## Overview
 
-Design and document a **reproducible, secure, and auditable** dual-boot configuration that:
+This repository documents the **successful installation, configuration, and verification of Ubuntu 24.04 LTS** alongside macOS Ventura on a T2-equipped MacBook Pro.  
+The project was completed as part of my cybersecurity learning roadmap to build a **native Linux environment** for hands-on security labs, penetration testing, and system administration practice.
 
-* Respects Apple’s T2 security architecture (Secure Boot + SIP)
-* Enables Ubuntu 24.04 for hands-on cybersecurity and networking labs
-* Demonstrates firmware-level system control, verification discipline, and risk management
-
----
-
-## 3. Educational and Professional Relevance
-
-| Skill Area                   | Demonstrated Competency                                          |
-| ---------------------------- | ---------------------------------------------------------------- |
-| **System Security**          | Managing firmware trust chains (Secure Boot + SIP)               |
-| **Linux Administration**     | Installing and configuring Ubuntu on protected hardware          |
-| **Dual Boot Architecture**   | Setting up EFI and GRUB boot environments                        |
-| **Cybersecurity Readiness**  | Checksum validation, ISO verification, and secure media creation |
-| **Documentation Discipline** | Maintaining audit-ready GitHub documentation and evidence        |
+The setup process required bypassing and later restoring Apple’s firmware-level protections — **Secure Boot** and **System Integrity Protection (SIP)** — while maintaining full data integrity and reversibility.
 
 ---
 
-## 4. Background — The T2 Security Challenge
+## Key Objectives
 
-Apple’s T2 chip enforces secure boot validation, encryption, and signed-OS enforcement.
-While these safeguards protect macOS, they restrict Linux installation unless firmware policies are modified.
-To achieve a secure and controlled dual-boot configuration:
-
-1. Entered macOS Recovery → disabled Secure Boot (“No Security”)
-2. Enabled External Boot (“Allow booting from external media”)
-3. Temporarily disabled System Integrity Protection (SIP) for EFI access
-4. Installed `rEFInd` Boot Manager to manage macOS + Ubuntu boot entries
-
-These steps mirror enterprise-level security operations — balancing protection with controlled flexibility.
+1. Create a reproducible Ubuntu installation on Apple T2 hardware.  
+2. Maintain macOS functionality and data safety throughout.  
+3. Implement rEFInd as a secure dual-boot manager.  
+4. Document all firmware, driver, and security configurations for auditability.  
+5. Demonstrate professional-grade documentation discipline aligned with cybersecurity industry standards.
 
 ---
 
-## 5. Repository Structure
+## Technical Summary
 
-| Path                | Purpose                                                |
-| ------------------- | ------------------------------------------------------ |
-| `README.md`         | Main public guide (this file)                          |
-| `Reflection.md`     | Daily logs and weekly insights                         |
-| `/Resources/`       | Hardware specs, firmware logs, checksums, and toolkits |
-| `/Troubleshooting/` | Detailed issue resolution and command logs             |
-| `/Screenshots/`     | Timestamped visual evidence of each step               |
-
----
-
-## 6. Preparation Phase (Completed Oct 30 – 31 2025)
-
-**Major Accomplishments**
-
-* Created and initialized public GitHub repository with v4.9 documentation rules
-* Recorded full hardware and firmware specifications under `/Resources`
-* Verified 130 GB available storage for Ubuntu partition (70 GB targeted)
-* Downloaded Ubuntu 24.04.3 ISO, balenaEtcher, and rEFInd
-* Validated files via SHA-256 checksums and macOS signature verification
-* Disabled Secure Boot and enabled External Boot in Recovery Utility
-* Temporarily disabled SIP (System Integrity Protection) for EFI modifications
-* Created bootable USB (16 GB Dynon Metrics, USB-C/USB-A) using balenaEtcher
-* Installed `rEFInd` Boot Manager successfully after SIP adjustment
-* Confirmed **EFI Boot** menu option appears on startup
-* Archived all screenshots and logs in version control
+| Category | Details |
+|-----------|----------|
+| **macOS Version** | Ventura 13.x |
+| **Ubuntu Version** | 24.04 LTS (Noble Numbat) |
+| **Boot Manager** | rEFInd 0.14.0.2 |
+| **Processor** | Intel Core i5 2.4 GHz (8th Gen) |
+| **Memory** | 16 GB LPDDR3 |
+| **Storage** | 512 GB SSD (APFS + ext4 + EFI) |
+| **Drivers Installed** | `apple-bce-dkms`, `firmware-b43-installer`, `efibootmgr` |
+| **Result** | Dual-boot confirmed, Wi-Fi + keyboard + trackpad operational |
 
 ---
 
-## 7. Firmware and Verification Summary
+## Repository Structure
 
-| Component        | Status                 | Verification Method        |
-| ---------------- | ---------------------- | -------------------------- |
-| Ubuntu ISO       | ✅ Verified             | SHA-256 Checksum           |
-| balenaEtcher DMG | ✅ Verified             | macOS Gatekeeper Signature |
-| rEFInd ZIP       | ✅ Verified             | Manual SHA-256 Validation  |
-| Secure Boot      | ✅ Disabled             | Startup Security Utility   |
-| SIP              | ✅ Disabled (Temporary) | `csrutil status`           |
-| External Boot    | ✅ Enabled              | Recovery Settings          |
-
----
-
-## 8. Troubleshooting Highlights (Oct 31 2025)
-
-| Issue                     | Root Cause              | Resolution                                    |
-| ------------------------- | ----------------------- | --------------------------------------------- |
-| SIP Blocking rEFInd       | EFI write protection    | Disabled SIP via Recovery (`csrutil disable`) |
-| Secure Boot Prevented USB | T2 firmware policy      | Set to *No Security* + allowed external boot  |
-| USB Not Detected          | Incorrect partition map | Reformatted as FAT + GUID, re-flashed ISO     |
-
-Detailed logs and commands are available in `/Troubleshooting/`.
+| Directory | Description |
+|------------|--------------|
+| `/Resources` | Verification logs, firmware notes, checksums, toolkit references |
+| `/Screenshots` | Evidence of each installation and verification step |
+| `/Troubleshooting` | Detailed issue–resolution documentation (SIP, Secure Boot, EFI, USB, T2 drivers) |
+| `/Reflection.md` | Final technical and personal analysis |
+| `/Guide.md` | Step-by-step reproducible installation guide |
 
 ---
 
-## 9. Tools and Resources
+## Highlights & Achievements
 
-*(See `/Resources/Toolkit_Downloads.md` for sources and versions.)*
-
-| Tool                 | Version     | Purpose                           |
-| -------------------- | ----------- | --------------------------------- |
-| Ubuntu 24.04.3 LTS   | Desktop ISO | Target Linux OS                   |
-| balenaEtcher         | 2.1.4       | Create bootable USB media         |
-| rEFInd Boot Manager  | 0.14.0.2    | Dual-boot management              |
-| Disk Utility         | Built-in    | Drive formatting and partitioning |
-| Terminal / `csrutil` | Built-in    | Firmware and SIP configuration    |
-| Time Machine         | Built-in    | System backup before partitioning |
+- **100 % integrity-verified** Ubuntu installation using SHA-256 checksums.  
+- Successfully configured rEFInd to coexist with Apple’s T2 firmware.  
+- Documented a **12-step reproducible install guide** with timestamped screenshots.  
+- Diagnosed and resolved driver issues for Broadcom Wi-Fi and Apple Bridge Controller (apple-bce).  
+- Created a **fully auditable technical report** following DevSecOps documentation standards.
 
 ---
 
-## 10. Commands and Procedures
+## Educational Value
 
-**List Drives**
+This repository models how cybersecurity students can document **system-level configuration projects** to showcase practical, verifiable skills in:
 
-```
-diskutil list
-```
-
-**Disable SIP (in Recovery)**
-
-```
-csrutil disable
-```
-
-**Post-Install Linux Setup**
-
-```
-sudo apt update && sudo apt upgrade -y
-sudo apt install firmware-b43-installer tlp -y
-```
+- OS hardening & bootloader management  
+- Firmware security and risk assessment  
+- Linux kernel module integration  
+- Dual-boot and partition management  
+- Documentation & traceability in secure engineering
 
 ---
 
-## 11. Documentation Evidence
+## Linked Projects
 
-| Filename                             | Description                        |
-| ------------------------------------ | ---------------------------------- |
-| 2025-10-30_SecureBoot_Settings.jpg   | Firmware configuration in Recovery |
-| 2025-10-30_DiskUtility_Layout.jpg    | Pre-partition disk layout          |
-| 2025-10-31_Disable_SIP_Recovery.jpg  | SIP disable command executed       |
-| 2025-10-31_SIP_Status_Disabled.jpg   | Confirmation of SIP disabled       |
-| 2025-10-31_Etcher_Flash_Complete.jpg | USB flashing completed             |
-| 2025-10-31_EFI_Boot_Menu.jpg         | EFI boot entry verified            |
+- [Google Cybersecurity Certificate](https://github.com/aarav-arora/Google-Cybersecurity-Certificate)  
+- [SecureScholar Platform](https://github.com/aarav-arora/SecureScholar-Platform)  
+- [Cybersecurity Portfolio Hub](https://github.com/aarav-arora/Cybersecurity-Portfolio-Hub)
 
 ---
 
-## 12. Educational Takeaways
+**Result:**  
+✅ Dual-boot verified  
+✅ Security posture documented  
+✅ Environment integrated with my cybersecurity roadmap  
 
-* Learned to navigate T2 firmware and SIP restrictions safely.
-* Applied checksum verification and cryptographic validation standards.
-* Balanced security controls with engineering flexibility.
-* Practiced incident-style documentation with full audit trail.
-* Built a reproducible process for future cybersecurity labs and projects.
-
----
-
-## 13. Next Phases
-
-| Date           | Focus                | Expected Outcome                                |
-| -------------- | -------------------- | ----------------------------------------------- |
-| Nov 1 2025     | Ubuntu Installation  | Partition SSD and install OS                    |
-| Nov 2 2025     | Dual-Boot Validation | Test boot flow and drivers                      |
-| Nov 3 – 9 2025 | Post-Install Labs    | Integrate into Google Cybersecurity Certificate |
-
----
-
-**Status:** ✅ Pre-installation and troubleshooting complete
-**Next Phase:** Ubuntu installation and system partitioning on Nov 1 2025
+**Next Phase:** Ubuntu system hardening & TryHackMe lab preparation (Week 2)
