@@ -45,5 +45,9 @@
 
 ---
 
-**Status:** All toolkit components verified and successfully used for ISO flashing and bootloader setup.
-**Next Step:** Use USB to initiate Ubuntu installer and begin partition configuration.
+## Post-Installation Utilities
+| Tool | Purpose |
+|------|----------|
+| `apple-bce-dkms` | Enables internal keyboard and trackpad on T2 Macs |
+| `efibootmgr` | Re-order EFI entries and restore rEFInd as default bootloader |
+| `linux-generic` / `linux-t2` | Kernel and headers ensuring module compatibility |
