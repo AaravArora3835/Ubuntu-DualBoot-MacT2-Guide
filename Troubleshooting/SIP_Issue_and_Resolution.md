@@ -33,7 +33,6 @@ Without disabling SIP, the rEFInd installer cannot place EFI files in the requir
    ```bash
    csrutil disable
    reboot
-``
 
 4. Verify:
 
@@ -67,5 +66,3 @@ csrutil enable
 
 **Verification Screenshot:**
 `/Screenshots/2025-10-31_SIP_Status_Disabled.jpg`
-
-````
