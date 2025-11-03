@@ -1,72 +1,71 @@
-# System Integrity Protection (SIP) — Issue and Resolution
+# SIP Issue and Resolution
 
-**Date:** October 31, 2025
-**System:** MacBook Pro 13″ (2019, T2 Chip)
-**Author:** Aarav Arora
-
----
-
-## 1. Summary
-
-During installation of **rEFInd Boot Manager**, the macOS terminal displayed an error indicating **System Integrity Protection (SIP) enabled**.
-SIP blocked EFI modifications required for the bootloader.
+**Issue Date:** October 31, 2025  
+**Resolved:** October 31, 2025  
+**System:** MacBook Pro (2019, T2 Security Chip)  
 
 ---
 
-## 2. Root Cause
+## Problem
 
-macOS’s SIP restricts write access to EFI system partitions and prevents unsigned kernel or bootloader installations.
-This protection is default on all T2-equipped Macs.
+The **System Integrity Protection (SIP)** feature in macOS blocked the **rEFInd boot manager** from writing to the EFI partition.  
+Attempting to run `./refind-install` resulted in:  
+```
+
+Error: Cannot write to EFI directory. Operation not permitted.
+
+````
 
 ---
 
-## 3. Resolution Steps
+## Cause
 
-1. **Booted into macOS Recovery** (⌘ + R on startup).
-2. **Opened Terminal** → executed:
+SIP restricts write access to system-protected directories, including `/System` and `/EFI`.  
+Without disabling SIP, the rEFInd installer cannot place EFI files in the required partition.
 
-   ```
+---
+
+## Resolution Steps
+
+1. Reboot into **macOS Recovery** (hold ⌘ + R).  
+2. Open **Utilities → Terminal.**  
+3. Run:
+   ```bash
    csrutil disable
-   ```
-3. **Restarted macOS** and verified:
+   reboot
+``
 
-   ```
+4. Verify:
+
+   ```bash
    csrutil status
    ```
 
-   → Output: `System Integrity Protection status: disabled.`
-4. **Re-ran rEFInd installer:**
+   → “System Integrity Protection status: disabled.”
 
-   ```
+5. Re-run the rEFInd installer:
+
+   ```bash
    ./refind-install
    ```
 
-   → Installation completed successfully.
-5. **Rebooted** and confirmed rEFInd boot menu visible.
+   Confirm success message and reboot.
 
 ---
 
-## 4. Evidence
+## Post-Installation Note
 
-| Screenshot                              | Description                        |
-| --------------------------------------- | ---------------------------------- |
-| `2025-10-31_Disable_SIP_Recovery.jpg`   | SIP disabled via Recovery Terminal |
-| `2025-10-31_SIP_Status_Disabled.jpg`    | Verification of disabled status    |
-| `2025-10-31_rEFInd_Install_Success.jpg` | Successful EFI installation output |
+SIP remains temporarily disabled to support EFI reconfiguration.
+It will be re-enabled once keyboard/trackpad drivers are stable and no further EFI edits are needed.
+To re-enable:
 
----
-
-## 5. Preventive Notes
-
-* SIP should remain disabled **only** until Ubuntu installation completes.
-* After verifying dual-boot functionality, re-enable with:
-
-  ```
-  csrutil enable
-  ```
-* Document both disable and enable dates in firmware logs for transparency.
+```bash
+csrutil enable
+```
 
 ---
 
-**Status:** Resolved — rEFInd installation successful after SIP adjustment.
-**Impact:** System now EFI-boot ready for Ubuntu installer.
+**Verification Screenshot:**
+`/Screenshots/2025-10-31_SIP_Status_Disabled.jpg`
+
+````
