@@ -2,8 +2,6 @@
 
 **Author:** Aarav Arora
 **System:** MacBook Pro (13-inch, 2019, Four Thunderbolt 3 Ports)
-**Last Updated:** October 31, 2025
-
 ---
 
 ## 1. System Overview
