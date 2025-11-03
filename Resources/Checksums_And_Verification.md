@@ -105,3 +105,12 @@ No mismatched or suspicious files were detected during validation or USB creatio
 
 **System Used:** macOS Ventura on MacBook Pro (2019, T2 Chip)
 **Next Step:** Proceed with Ubuntu installation and GRUB configuration.
+
+---
+
+## 8. Final Recap — November 2 2025
+
+All verified files used for a successful Ubuntu 24.04 LTS installation.  
+Checksums matched official vendor hashes. No anomalies detected during or after install.  
+Repository retains these logs for full audit traceability.
+
