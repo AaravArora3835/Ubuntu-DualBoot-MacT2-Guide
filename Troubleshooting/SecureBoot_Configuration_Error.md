@@ -1,53 +1,45 @@
-# Secure Boot Configuration — Issue and Resolution
+# Secure Boot Configuration Error
 
-**Date:** October 31, 2025
-**System:** MacBook Pro 13″ (2019, T2 Chip)
-**Author:** Aarav Arora
-
----
-
-## 1. Summary
-
-Initial USB boot attempts failed to show the “EFI Boot” option.
-The T2 chip restricted external booting due to default firmware security settings.
+**Issue Date:** October 30, 2025  
+**Resolved:** October 30, 2025  
 
 ---
 
-## 2. Root Cause
+## Problem
 
-**Secure Boot = Full Security** and **External Boot = Disallowed** in Startup Security Utility prevent any non-Apple OS media from booting.
+When booting from the Ubuntu USB, macOS displayed:
+> “Security settings do not allow this Mac to use an external startup disk.”
 
----
-
-## 3. Resolution Steps
-
-1. Booted into **macOS Recovery (⌘ + R)**.
-2. Opened **Startup Security Utility** → authenticated as admin.
-3. Changed settings:
-
-   * **Secure Boot:** *No Security*
-   * **External Boot:** *Allow booting from external media*
-4. Rebooted Mac and held **Option (⌥)** to access Startup Manager.
-5. Verified appearance of **EFI Boot (orange USB icon)** for Ubuntu installer.
+The T2 Security Chip prevented booting unsigned OS media.
 
 ---
 
-## 4. Evidence
+## Cause
 
-| Screenshot                           | Description                                                |
-| ------------------------------------ | ---------------------------------------------------------- |
-| `2025-10-30_SecureBoot_Settings.jpg` | Secure Boot and External Boot options adjusted in Recovery |
-| `2025-10-31_EFI_Boot_Menu.jpg`       | EFI Boot recognized after firmware changes                 |
+The default T2 Secure Boot setting “Full Security” validates Apple-signed operating systems only.  
+This blocked the unsigned Ubuntu bootloader from initializing.
 
 ---
 
-## 5. Preventive Notes
+## Resolution Steps
 
-* Keep Secure Boot = *No Security* until Ubuntu installation is complete.
-* Post-installation, re-enable *Medium Security* or *Full Security* if macOS is primary OS.
-* Maintain photo evidence for audit and portfolio records.
+1. Boot into **macOS Recovery** (hold ⌘ + R).  
+2. Open **Startup Security Utility.**  
+3. Authenticate with admin credentials.  
+4. Change:
+   - **Secure Boot:** *No Security*  
+   - **External Boot:** *Allow booting from external media*  
+5. Restart the Mac and reconnect the Ubuntu USB.  
+6. Hold **Option (⌥)** during boot → select **EFI Boot (orange USB icon).**
 
 ---
 
-**Status:** Resolved — EFI Boot visible and functional.
-**Impact:** MacBook now accepts external boot media for Ubuntu installation.
+## Verification Evidence
+
+- `/Screenshots/2025-10-30_SecureBoot_Settings.jpg`  
+- `/Screenshots/2025-10-31_EFI_Boot_Menu.jpg`  
+
+---
+
+**Status:** Ubuntu installer now boots successfully from USB.  
+**Next Step:** Proceed with partition setup and checksum verification.
