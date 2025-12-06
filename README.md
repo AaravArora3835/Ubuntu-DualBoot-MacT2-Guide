@@ -16,6 +16,23 @@ The setup process required bypassing and later restoring Apple’s firmware-leve
 
 ---
 
+## Context in Learning Path
+This environment enables Phase 2-3 hands-on labs:
+- Google Cybersecurity Certificate (network analysis modules)
+- TryHackMe Jr Penetration Tester path
+- Native Linux tools: nmap, Wireshark, Metasploit
+
+---
+
+## Skills Demonstrated
+- **Firmware Security**: Secure Boot, SIP, T2 chip constraints
+- **Boot Management**: rEFInd, GRUB, EFI partition manipulation
+- **Linux Administration**: Driver compilation, kernel modules, package management
+- **Risk Assessment**: Security trade-offs documented per NIST principles
+- **Technical Documentation**: Audit-ready logs with evidence chain
+
+---
+
 ## Key Objectives
 
 1. Create a reproducible Ubuntu installation on Apple T2 hardware.  
